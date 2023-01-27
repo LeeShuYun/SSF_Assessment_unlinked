@@ -51,7 +51,7 @@ public class PizzaService {
         //sets the id as key and mastermindObj as String value
         redisTemplate.opsForValue().set(pizzaOrder.getOrderId(), pizzaOrder.toJSON().toString());
 
-        //test by retrieving the data we just saved from redis 
+        //test by retrieving the Value data we just saved under the ID, getting from redis 
         String result = (String) redisTemplate.opsForValue().get(pizzaOrder.getOrderId());
         
         //if we successfully save the game, we return 1
@@ -59,4 +59,8 @@ public class PizzaService {
             return 1;
         return 0;
     }
+
+    public 
+
+
 }

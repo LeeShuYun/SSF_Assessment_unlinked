@@ -7,7 +7,6 @@ import java.util.Random;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,6 +14,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Digits;
+
+import jakarta.json.Json;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+
 
 public class PizzaOrder implements Serializable{
     //Validation rules
@@ -50,6 +55,9 @@ public class PizzaOrder implements Serializable{
     @NotEmpty(message="Please add an address.")
     private String address;
 
+    @NotEmpty(message="Please add an address.")
+    private String phone;
+
     private Float pizzaCost;
 
     private boolean isRushOrder;
@@ -77,6 +85,30 @@ public class PizzaOrder implements Serializable{
         //if the hexadecimal is too long, we slice/substring it down to numChar length
         return sb.toString().substring(0, numChars);
     }
+
+    //creates JsonObjectbuilder from string
+    public JsonObjectBuilder toJSON() {
+        return Json.createObjectBuilder()
+                .add("orderId", this.getOrderId())
+                .add("name", this.getName())
+                .add("phone", this.getPhone())
+                .add("rush", this.isRushOrder())
+                .add("comments", this.getComments())
+                .add("pizza", this.getSelectedPizza())
+                .add("size", this.getPizzaSize())
+                .add("quantity", this.getQuantity())
+                .add("total", this.getTotalOrderCost());
+    }
+
+    //creates PizzaOrder obj from json object
+    public static PizzaOrder createJson(JsonObject o) {
+        PizzaOrder t = new PizzaOrder();
+        JsonNumber count = o.getJsonNumber("count");
+        String type = o.getString("type");
+        t.count = count.intValue();
+        t.type = type;
+        return t;
+    }
     //getter and setters ======================================
     public String getOrderId(){
         return orderId;
@@ -85,7 +117,12 @@ public class PizzaOrder implements Serializable{
     public void setOrderId(String orderId){
         this.orderId = orderId;
     }
-    
+    public String getPhone(){
+        return phone;
+    };
+    public void setPhone(String phone){
+        this.phone = phone;
+    };
     public String getPizzaSize(){
         return pizzaSize;
     };
