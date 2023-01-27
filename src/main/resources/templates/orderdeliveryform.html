@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Delivery Details</title>
+  </head>
+  <body>
+    <h1>Order Delivery Details</h1>
+    <form
+      action="#"
+      data-th-action="@{/deliverydetails}"
+      data-th-object="${pizza}"
+      method="post"
+    >
+      <p>
+        Name:
+        <input type="text" data-th-field="*{name}" />
+        <br />
+        <!-- this is a way to create the error messages that we see in red. They pop up if we fill in the fields wrongly
+        The errors are set inside the contact object itself. span makes sure the message appears inline on the right of the field instead on the bottom -->
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('name')}"
+          data-th-errors="*{name}"
+        ></span>
+      </p>
+      <br />
+      <p>
+        Address:
+        <input type="text" data-th-field="*{address}" />
+        <br />
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('address')}"
+          data-th-errors="*{address}"
+        ></span>
+      </p>
+      <br />
+      <p>
+        Phone:
+        <input type="text" data-th-field="*{phoneNumber}" />
+        <br />
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('phoneNumber')}"
+          data-th-errors="*{phoneNumber}"
+        ></span>
+      </p>
+      <br />
+      <p>
+        Rush:
+        <input type="checkbox" data-th-field="*{isRushOrder}" />
+        <br />
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('isRushOrder')}"
+          data-th-errors="*{isRushOrder}"
+        ></span>
+        <br />
+        Comments:
+        <!-- note that number fields have arrows to increment and decrement the number by 1 -->
+        <input type="text" data-th-field="*{comments}" />
+        <span
+          class="error"
+          data-th-if="${#fields.hasErrors('comments')}"
+          data-th-errors="*{comments}"
+        ></span>
+      </p>
+      <br />
+      <input class="button" type="button" onclick="window.location.replace('your_url')" value="Cancel" />
+      <button type="submit">Place Order</button>
+    </form>
+  </body>
+</html>
